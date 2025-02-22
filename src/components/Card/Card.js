@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MailOutlined,
   PhoneOutlined,
   GlobalOutlined,
   HeartOutlined,
+  HeartFilled,
   EditOutlined,
-  DeleteOutlined,
+  DeleteFilled,
 } from "@ant-design/icons";
 
 const UserCard = ({ user, onEdit }) => {
+  const [liked, setLiked] = useState(false);
+
   return (
     <div className="bg-gray-100 border">
       <div className="flex justify-center items-center h-48">
@@ -43,17 +46,27 @@ const UserCard = ({ user, onEdit }) => {
         </div>
       </div>
       <div className="grid grid-cols-3 items-center p-4 bg-gray-50 border-t">
-        <div className="flex justify-center items-center">
-          <HeartOutlined className="text-red-500 text-xl cursor-pointer" />
-        </div>
+        {/* Like Button */}
         <div
-          className="flex justify-center items-center border-l border-r border-gray-300"
+          className="flex justify-center items-center cursor-pointer"
+          onClick={() => setLiked(!liked)}
+        >
+          {liked ? (
+            <HeartFilled className="text-red-500 text-xl" />
+          ) : (
+            <HeartOutlined className="text-red-500 text-xl" />
+          )}
+        </div>
+        {/* Edit Button */}
+        <div
+          className="flex justify-center items-center border-l border-r border-gray-300 cursor-pointer"
           onClick={() => onEdit(user)}
         >
-          <EditOutlined className="text-gray-500 text-xl cursor-pointer" />
+          <EditOutlined className="text-gray-500 text-xl hover:text-blue-500" />
         </div>
-        <div className="flex justify-center items-center">
-          <DeleteOutlined className="text-gray-500 text-xl cursor-pointer" />
+        {/* Delete Button */}
+        <div className="flex justify-center items-center cursor-pointer">
+          <DeleteFilled className="text-gray-500 text-xl hover:text-blue-500" />
         </div>
       </div>
     </div>
