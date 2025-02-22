@@ -19,7 +19,7 @@ const EditUserModal = ({ visible, user, onClose, onUpdate }) => {
 
   return (
     <Modal
-      title="Edit User"
+      title={<div className="w-full pb-2">Basic Modal</div>}
       open={visible}
       onCancel={onClose}
       footer={[
@@ -31,37 +31,45 @@ const EditUserModal = ({ visible, user, onClose, onUpdate }) => {
         </Button>,
       ]}
     >
-      <Form form={form} layout="vertical">
+      <Form form={form} layout="horizontal" className="w-full">
         <Form.Item
           label="Name"
           name="name"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 18 }}
           rules={[{ required: true, message: "Please enter name" }]}
         >
-          <Input />
+          <Input className="w-80" />
         </Form.Item>
         <Form.Item
           label="Email"
           name="email"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 18 }}
           rules={[
             { required: true, message: "Please enter email" },
             { type: "email", message: "Enter a valid email" },
           ]}
         >
-          <Input />
+          <Input className="w-80" />
         </Form.Item>
         <Form.Item
           label="Phone"
           name="phone"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 18 }}
           rules={[{ required: true, message: "Please enter phone number" }]}
         >
-          <Input />
+          <Input className="w-80" />
         </Form.Item>
         <Form.Item
           label="Website"
           name="website"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 18 }}
           rules={[{ required: true, message: "Please enter website" }]}
         >
-          <Input />
+          <Input className="w-80" />
         </Form.Item>
       </Form>
     </Modal>
