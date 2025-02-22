@@ -75,7 +75,7 @@ function App() {
                 </a>
               </div>
             </div>
-            <div className="grid grid-cols-3 items-center p-4 bg-gray-50">
+            <div className="grid grid-cols-3 items-center p-4 bg-gray-50 border-t">
               <div className="flex justify-center items-center">
                 <HeartOutlined className="text-red-500 text-xl cursor-pointer" />
               </div>
