@@ -1,76 +1,125 @@
-import React, { useState } from "react";
+import React from "react";
+import { Card, Avatar } from "antd";
 import {
+  EditOutlined,
+  DeleteFilled,
+  HeartOutlined,
+  HeartFilled,
   MailOutlined,
   PhoneOutlined,
   GlobalOutlined,
-  HeartOutlined,
-  HeartFilled,
-  EditOutlined,
-  DeleteFilled,
 } from "@ant-design/icons";
 
-const UserCard = ({ user, onEdit, onDelete }) => {
-  const [liked, setLiked] = useState(false);
-
+const UserCard = ({ user, onEdit, onDelete, onLike }) => {
   return (
-    <div className="bg-gray-100 border">
-      <div className="flex justify-center items-center h-48">
-        <img
-          src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}&mood[]=happy`}
-          alt={user.name}
-          className="h-full bg-gray-200 w-auto"
-        />
-      </div>
-      <div className="space-y-2 bg-white p-2 pl-6 pb-7 ">
-        <h2 className="text-l font-semibold mt-4 text-gray-800">{user.name}</h2>
-        <div className="flex items-center gap-2 text-gray-600">
-          <MailOutlined className="text-lg" />
-          <span className="text-sm">{user.email}</span>
-        </div>
-        <div className="flex items-center gap-2 text-gray-600">
-          <PhoneOutlined className="text-lg" />
-          <span className="text-sm">{user.phone}</span>
-        </div>
-        <div className="flex items-center gap-2 text-gray-600">
-          <GlobalOutlined className="text-lg" />
-          <a
-            href={`http://${user.website}`}
-            className="text-sm text-blue-600 hover:underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {user.website}
-          </a>
-        </div>
-      </div>
-      <div className="grid grid-cols-3 items-center  p-4 bg-gray-50 border-t">
-        {/* Like Button */}
-        <div
-          className="flex justify-center items-center cursor-pointer"
-          onClick={() => setLiked(!liked)}
-        >
-          {liked ? (
-            <HeartFilled className="text-red-500 text-xl" />
+    <Card
+      style={{ backgroundColor: "#FAFAFA", padding: 0 }}
+      styles={{ body: { padding: 0 } }}
+      actions={[
+        <span key="heart" onClick={() => onLike(user.id)}>
+          {user.liked ? (
+            <HeartFilled style={{ color: "#eb2f96", fontSize: 18 }} />
           ) : (
-            <HeartOutlined className="text-red-500 text-xl" />
+            <HeartOutlined style={{ color: "#eb2f96", fontSize: 18 }} />
           )}
-        </div>
-        {/* Edit Button */}
-        <div
-          className="flex justify-center items-center border-l border-r border-gray-300 cursor-pointer"
+        </span>,
+        <EditOutlined
+          key="edit"
           onClick={() => onEdit(user)}
-        >
-          <EditOutlined className="text-gray-500 text-xl hover:text-blue-500" />
-        </div>
-        {/* Delete Button */}
-        <div
-          className="flex justify-center items-center cursor-pointer"
+          style={{ fontSize: 18 }}
+        />,
+        <DeleteFilled
+          key="delete"
           onClick={() => onDelete(user.id)}
+          style={{ fontSize: 18 }}
+        />,
+      ]}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          <DeleteFilled className="text-gray-500 text-xl hover:text-blue-500" />
+          <Avatar
+            src={user.avatar}
+            alt={user.name}
+            size={194}
+            style={{ flexShrink: 0 }}
+          />
+        </div>
+
+        <div style={{ width: "100%", backgroundColor: "#FFFFFF" }}>
+          <h3 style={{ marginBottom: 8, fontWeight: 600, marginLeft: 16 }}>
+            {user.name}
+          </h3>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 4,
+              marginLeft: 16,
+              marginBottom: 12,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                color: "#4B5563",
+              }}
+            >
+              <MailOutlined style={{ fontSize: "18px" }} />
+              <span style={{ fontSize: 14, marginLeft: 4 }}>{user.email}</span>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                color: "#4B5563",
+              }}
+            >
+              <PhoneOutlined style={{ fontSize: 18 }} />
+              <span style={{ fontSize: 14, marginLeft: 4 }}>{user.phone}</span>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                color: "#4B5563",
+              }}
+            >
+              <GlobalOutlined style={{ fontSize: 18 }} />
+              <a
+                href={`http://${user.website}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontSize: 14,
+                  textDecoration: "none",
+                  marginLeft: 4,
+                  color: "#4B5563",
+                }}
+              >
+                {user.website}
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 

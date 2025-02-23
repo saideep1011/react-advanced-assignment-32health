@@ -1,75 +1,64 @@
 import React from "react";
-import { Modal, Form, Input, Button } from "antd";
+import { Modal, Button, Form, Input } from "antd";
 
-const EditUserModal = ({ visible, user, onClose, onUpdate }) => {
-  const [form] = Form.useForm();
-
-  React.useEffect(() => {
-    if (user) {
-      form.setFieldsValue(user);
-    }
-  }, [user, form]);
-
-  const handleOk = () => {
-    form.validateFields().then((values) => {
-      onUpdate({ ...user, ...values });
-      form.resetFields();
-    });
-  };
-
+const EditUserModal = ({ isModalOpen, onCancel, onOk, form }) => {
   return (
     <Modal
-      title={<div className="w-full pb-2">Basic Modal</div>}
-      open={visible}
-      onCancel={onClose}
+      title="Basic Modal"
+      open={isModalOpen}
+      onCancel={onCancel}
       footer={[
-        <Button key="cancel" onClick={onClose}>
+        <Button key="cancel" onClick={onCancel}>
           Cancel
         </Button>,
-        <Button key="ok" type="primary" onClick={handleOk}>
+        <Button
+          key="ok"
+          type="primary"
+          onClick={() => {
+            form
+              .validateFields()
+              .then((values) => onOk(values))
+              .catch((info) => console.log("Validation Failed:", info));
+          }}
+        >
           OK
         </Button>,
       ]}
     >
-      <Form form={form} layout="horizontal" className="w-full">
+      <Form form={form} layout="horizontal">
         <Form.Item
-          label="Name"
           name="name"
+          label="Name"
+          rules={[{ required: true, message: "Please enter a name!" }]}
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 18 }}
-          rules={[{ required: true, message: "Please enter name" }]}
         >
-          <Input className="w-80" />
+          <Input />
         </Form.Item>
         <Form.Item
-          label="Email"
           name="email"
+          label="Email"
+          rules={[{ required: true, message: "Please enter an email!" }]}
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 18 }}
-          rules={[
-            { required: true, message: "Please enter email" },
-            { type: "email", message: "Enter a valid email" },
-          ]}
         >
-          <Input className="w-80" />
+          <Input />
         </Form.Item>
         <Form.Item
-          label="Phone"
           name="phone"
+          label="Phone"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 18 }}
-          rules={[{ required: true, message: "Please enter phone number" }]}
         >
-          <Input className="w-80" />
+          <Input />
         </Form.Item>
         <Form.Item
-          label="Website"
           name="website"
+          label="Website"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 18 }}
-          rules={[{ required: true, message: "Please enter website" }]}
         >
-          <Input className="w-80" />
+          <Input />
         </Form.Item>
       </Form>
     </Modal>
