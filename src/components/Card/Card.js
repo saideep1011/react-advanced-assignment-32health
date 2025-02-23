@@ -9,7 +9,7 @@ import {
   DeleteFilled,
 } from "@ant-design/icons";
 
-const UserCard = ({ user, onEdit }) => {
+const UserCard = ({ user, onEdit, onDelete }) => {
   const [liked, setLiked] = useState(false);
 
   return (
@@ -65,7 +65,10 @@ const UserCard = ({ user, onEdit }) => {
           <EditOutlined className="text-gray-500 text-xl hover:text-blue-500" />
         </div>
         {/* Delete Button */}
-        <div className="flex justify-center items-center cursor-pointer">
+        <div
+          className="flex justify-center items-center cursor-pointer"
+          onClick={() => onDelete(user.id)}
+        >
           <DeleteFilled className="text-gray-500 text-xl hover:text-blue-500" />
         </div>
       </div>

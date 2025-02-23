@@ -39,7 +39,9 @@ function App() {
     );
     setIsModalOpen(false);
   };
-
+  const handleDeleteUser = (userId) => {
+    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+  };
   if (loading) return <p className="text-center mt-8">Loading...</p>;
   if (error)
     return <p className="text-center mt-8 text-red-500">Error: {error}</p>;
@@ -48,7 +50,12 @@ function App() {
     <div className="min-h-screen bg-white p-3 md:p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {users.map((user) => (
-          <UserCard key={user.id} user={user} onEdit={handleEdit} />
+          <UserCard
+            key={user.id}
+            user={user}
+            onEdit={handleEdit}
+            onDelete={handleDeleteUser}
+          />
         ))}
       </div>
 
