@@ -40,6 +40,7 @@ const UserCard = ({ user, onEdit, onDelete, onLike }) => {
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
+          backgroundColor: "#F5F5F5",
         }}
       >
         <div
@@ -52,14 +53,22 @@ const UserCard = ({ user, onEdit, onDelete, onLike }) => {
         >
           <Avatar
             src={user.avatar}
+            shape="square"
             alt={user.name}
             size={194}
-            style={{ flexShrink: 0 }}
+            style={{ flexShrink: 0, backgroundColor: "#E3E3E3" }}
           />
         </div>
 
         <div style={{ width: "100%", backgroundColor: "#FFFFFF" }}>
-          <h3 style={{ marginBottom: 8, fontWeight: 600, marginLeft: 16 }}>
+          <h3
+            style={{
+              marginBottom: 8,
+              fontWeight: 600,
+              marginLeft: 24,
+              marginTop: 12,
+            }}
+          >
             {user.name}
           </h3>
           <div
@@ -67,8 +76,8 @@ const UserCard = ({ user, onEdit, onDelete, onLike }) => {
               display: "flex",
               flexDirection: "column",
               gap: 4,
-              marginLeft: 16,
-              marginBottom: 12,
+              marginLeft: 24,
+              marginBottom: 24,
             }}
           >
             <div
@@ -113,7 +122,7 @@ const UserCard = ({ user, onEdit, onDelete, onLike }) => {
                   color: "#4B5563",
                 }}
               >
-                {user.website}
+                http://{user.website}
               </a>
             </div>
           </div>

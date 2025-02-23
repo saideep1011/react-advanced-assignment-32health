@@ -27,7 +27,7 @@ function App() {
       } catch (err) {
         setError(err.message);
       } finally {
-        setLoading(false);
+        setTimeout(() => setLoading(false), 1000);
       }
     };
     fetchUsers();
@@ -68,7 +68,15 @@ function App() {
   return (
     <div>
       {loading ? (
-        <Spin size="large" />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-start",
+          }}
+        >
+          <Spin size="large" />
+        </div>
       ) : error ? (
         <p>Error: {error}</p>
       ) : (
