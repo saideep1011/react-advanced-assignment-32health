@@ -17,6 +17,9 @@ import {
   DeleteOutlined,
   HeartOutlined,
   HeartFilled,
+  MailOutlined,
+  PhoneOutlined,
+  GlobalOutlined,
 } from "@ant-design/icons";
 
 const { Meta } = Card;
@@ -77,47 +80,130 @@ function App() {
     );
   };
 
-  // Rest of your component remains the same
-  // ... (Modal JSX and other code)
-
   return (
     <div className="app-container">
-      <Row gutter={[16, 16]}>
+      <Row gutter={[12, 12]}>
         {users.map((user) => (
-          <Col xs={24} sm={12} lg={6} key={user.id}>
+          <Col
+            xs={24}
+            sm={12}
+            lg={6}
+            key={user.id}
+            style={{ padding: 16, paddingLeft: 16, paddingRight: 16 }}
+          >
             <Card
+              style={{ backgroundColor: "#F5F5F5", padding: 0 }}
+              styles={{ body: { padding: "0px" } }}
               actions={[
+                <EditOutlined key="edit" onClick={() => handleEdit(user)} />,
                 <span key="heart" onClick={() => handleLike(user.id)}>
                   {user.liked ? (
-                    <HeartFilled style={{ fontSize: 18, color: "#eb2f96" }} />
+                    <HeartFilled style={{ color: "#eb2f96" }} />
                   ) : (
-                    <HeartOutlined style={{ fontSize: 18, color: "#eb2f96" }} />
+                    <HeartOutlined style={{ color: "inherit" }} />
                   )}
                 </span>,
-                <EditOutlined key="edit" onClick={() => handleEdit(user)} />,
                 <DeleteOutlined
                   key="delete"
                   onClick={() => handleDeleteUser(user.id)}
                 />,
               ]}
             >
-              <Meta
-                avatar={
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
                   <Avatar
                     src={user.avatar}
                     alt={user.name}
-                    className="h-full bg-gray-200 w-auto"
+                    size={194}
+                    style={{ flexShrink: 0 }}
                   />
-                }
-                title={user.name}
-                description={
-                  <>
-                    <p>Email: {user.email}</p>
-                    <p>Phone: {user.phone}</p>
-                    <p>Website: {user.website}</p>
-                  </>
-                }
-              />
+                </div>
+
+                <div
+                  style={{
+                    width: "100%",
+                    backgroundColor: "#FFFFFF",
+                  }}
+                >
+                  <h3
+                    style={{ marginBottom: 8, fontWeight: 600, marginLeft: 16 }}
+                  >
+                    {user.name}
+                  </h3>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 4,
+                      marginLeft: 16,
+                      marginBottom: 12,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        color: "#4B5563",
+                      }}
+                    >
+                      <MailOutlined style={{ fontSize: "18px" }} />
+                      <span style={{ fontSize: 14, marginLeft: 4 }}>
+                        {user.email}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        color: "#4B5563",
+                      }}
+                    >
+                      <PhoneOutlined style={{ fontSize: 18 }} />
+                      <span style={{ fontSize: 14, marginLeft: 4 }}>
+                        {user.phone}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        color: "#4B5563",
+                      }}
+                    >
+                      <GlobalOutlined style={{ fontSize: 18 }} />
+                      <a
+                        href={`http://${user.website}`}
+                        style={{
+                          fontSize: 14,
+                          textDecoration: "none",
+                          marginLeft: 4,
+                          color: "#4B5563",
+                        }}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        http://{user.website}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </Card>
           </Col>
         ))}
@@ -127,24 +213,48 @@ function App() {
         title="Basic Modal"
         open={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
-        footer={null}
+        footer={[
+          <Button key="cancel">Cancel</Button>,
+          <Button key="ok" type="primary">
+            OK
+          </Button>,
+        ]}
       >
         <Form form={form}>
-          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+          <Form.Item
+            name="name"
+            label="Name"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 18 }}
+            rules={[{ required: true }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item name="email" label="Email" rules={[{ required: true }]}>
+          <Form.Item
+            name="email"
+            label="Email"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 18 }}
+            rules={[{ required: true }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item name="phone" label="Phone">
+          <Form.Item
+            name="phone"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 18 }}
+            label="Phone"
+          >
             <Input />
           </Form.Item>
-          <Form.Item name="website" label="Website">
+          <Form.Item
+            name="website"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 18 }}
+            label="Website"
+          >
             <Input />
           </Form.Item>
-          <Button type="primary" htmlType="submit">
-            Update User
-          </Button>
         </Form>
       </Modal>
     </div>
