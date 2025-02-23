@@ -21,10 +21,8 @@ const UserCard = ({ user, onEdit, onDelete }) => {
           className="h-full bg-gray-200 w-auto"
         />
       </div>
-      <div className="space-y-3 bg-white p-2">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">
-          {user.name}
-        </h2>
+      <div className="space-y-2 bg-white p-2 pl-6 pb-7 ">
+        <h2 className="text-l font-semibold mt-4 text-gray-800">{user.name}</h2>
         <div className="flex items-center gap-2 text-gray-600">
           <MailOutlined className="text-lg" />
           <span className="text-sm">{user.email}</span>
@@ -45,7 +43,7 @@ const UserCard = ({ user, onEdit, onDelete }) => {
           </a>
         </div>
       </div>
-      <div className="grid grid-cols-3 items-center p-4 bg-gray-50 border-t">
+      <div className="grid grid-cols-3 items-center  p-4 bg-gray-50 border-t">
         {/* Like Button */}
         <div
           className="flex justify-center items-center cursor-pointer"
