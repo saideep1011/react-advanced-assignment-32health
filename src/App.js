@@ -1,9 +1,26 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {
+  Row,
+  Col,
+  Card,
+  Spin,
+  Typography,
+  Modal,
+  Button,
+  Form,
+  Input,
+  Avatar,
+} from "antd";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  HeartOutlined,
+  HeartFilled,
+} from "@ant-design/icons";
 
-import "./App.css";
-import UserCard from "./components/Card/Card";
-import EditUserModal from "./components/Modal/Modal";
+const { Meta } = Card;
+const { Paragraph } = Typography;
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -11,6 +28,7 @@ function App() {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [form] = Form.useForm();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -18,7 +36,12 @@ function App() {
         const response = await axios.get(
           "https://jsonplaceholder.typicode.com/users"
         );
-        setUsers(response.data);
+        const usersWithLikes = response.data.map((user) => ({
+          ...user,
+          liked: false,
+          avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}&mood[]=happy`,
+        }));
+        setUsers(usersWithLikes);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -28,43 +51,102 @@ function App() {
     fetchUsers();
   }, []);
 
+  // Edit handler
   const handleEdit = (user) => {
     setSelectedUser(user);
+    form.setFieldsValue({
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      website: user.website,
+    });
     setIsModalOpen(true);
   };
 
-  const handleUpdateUser = (updatedUser) => {
-    setUsers((prevUsers) =>
-      prevUsers.map((user) => (user.id === updatedUser.id ? updatedUser : user))
-    );
-    setIsModalOpen(false);
-  };
+  // Delete handler
   const handleDeleteUser = (userId) => {
     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
   };
-  if (loading) return <p className="text-center mt-8">Loading...</p>;
-  if (error)
-    return <p className="text-center mt-8 text-red-500">Error: {error}</p>;
+
+  // Like handler
+  const handleLike = (userId) => {
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user.id === userId ? { ...user, liked: !user.liked } : user
+      )
+    );
+  };
+
+  // Rest of your component remains the same
+  // ... (Modal JSX and other code)
 
   return (
-    <div className="min-h-screen bg-white p-3 md:p-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="app-container">
+      <Row gutter={[16, 16]}>
         {users.map((user) => (
-          <UserCard
-            key={user.id}
-            user={user}
-            onEdit={handleEdit}
-            onDelete={handleDeleteUser}
-          />
+          <Col xs={24} sm={12} lg={6} key={user.id}>
+            <Card
+              actions={[
+                <span key="heart" onClick={() => handleLike(user.id)}>
+                  {user.liked ? (
+                    <HeartFilled style={{ fontSize: 18, color: "#eb2f96" }} />
+                  ) : (
+                    <HeartOutlined style={{ fontSize: 18, color: "#eb2f96" }} />
+                  )}
+                </span>,
+                <EditOutlined key="edit" onClick={() => handleEdit(user)} />,
+                <DeleteOutlined
+                  key="delete"
+                  onClick={() => handleDeleteUser(user.id)}
+                />,
+              ]}
+            >
+              <Meta
+                avatar={
+                  <Avatar
+                    src={user.avatar}
+                    alt={user.name}
+                    className="h-full bg-gray-200 w-auto"
+                  />
+                }
+                title={user.name}
+                description={
+                  <>
+                    <p>Email: {user.email}</p>
+                    <p>Phone: {user.phone}</p>
+                    <p>Website: {user.website}</p>
+                  </>
+                }
+              />
+            </Card>
+          </Col>
         ))}
-      </div>
+      </Row>
 
-      <EditUserModal
-        visible={isModalOpen}
-        user={selectedUser}
-        onClose={() => setIsModalOpen(false)}
-        onUpdate={handleUpdateUser}
-      />
+      <Modal
+        title="Basic Modal"
+        open={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        footer={null}
+      >
+        <Form form={form}>
+          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="email" label="Email" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="phone" label="Phone">
+            <Input />
+          </Form.Item>
+          <Form.Item name="website" label="Website">
+            <Input />
+          </Form.Item>
+          <Button type="primary" htmlType="submit">
+            Update User
+          </Button>
+        </Form>
+      </Modal>
     </div>
   );
 }
